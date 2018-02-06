@@ -1,0 +1,20 @@
+{
+  "name": "php-light/analytics",
+  "description": "PHP Light Analytics module to be used with the corresponding frontend angularjs module",
+  "type": "library",
+  "homepage": "https://github.com/php-light/analytics",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Khalid Sookia",
+      "email": "khalidsookia@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": { "PhpLight\\AnalyticsBundle\\": "" },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
+}
