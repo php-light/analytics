@@ -10,6 +10,9 @@
 namespace PhpLight\AnalyticsBundle\Controller;
 
 
+use PhpLight\AnalyticsBundle\Entity\Data;
+use PhpLight\AnalyticsBundle\Repository\DataRepository;
+use PhpLight\Framework\Components\Config;
 use PhpLight\Framework\Controller\Controller;
 use PhpLight\Http\Request\Request;
 use PhpLight\Http\Response\JsonResponse;
@@ -20,8 +23,15 @@ class DataController extends Controller
     {
         $data = $request->getPost()["data"];
 
+        if ($request->getUser()) {
+            $userRepository = (new Config())->getConfig()["user_repository"];
+            $data["user"] = (new $userRepository())->findByUid($request->getUser()->getUid())->getPublicData();
+        }
+
+        $data = new Data($data);
+
         return new JsonResponse([
-            "data" => $data
+            "data" => (new DataRepository())->new($data)->toArray()
         ]);
     }
 }

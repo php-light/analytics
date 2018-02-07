@@ -54,6 +54,14 @@ class Data extends Model
      */
     protected $createdAt;
 
+    public function __construct($data)
+    {
+        parent::__construct($data);
+        $this->createdAt = new \DateTime('NOW');
+
+        $this->identifier = $this->identifier ? $this->identifier : $this->currentHash;
+    }
+
     /**
      * @return int
      */
