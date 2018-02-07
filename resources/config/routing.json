@@ -1,0 +1,9 @@
+{
+  "route": {
+    "php_light_analytics_send": {
+      "path": "/",
+      "controller": "PhpLight\\AnalyticsBundle\\Controller\\Data",
+      "action": "new"
+    }
+  }
+}
