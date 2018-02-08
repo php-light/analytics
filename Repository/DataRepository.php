@@ -54,4 +54,47 @@ class DataRepository
 
         return $data;
     }
+
+    public function stats()
+    {
+        $db = (new DB())->connect();
+        $stats = [];
+
+        $events = [];
+        $query = $db->query(
+            "SELECT DISTINCT `event` FROM `phplight_analytics`"
+        )->fetchAll($db::FETCH_ASSOC);
+
+        foreach ($query as $event) {
+            $count = $db->query(
+                "SELECT COUNT(`event`) FROM `phplight_analytics` WHERE `event`='" . $event['event'] . "'"
+            )->fetch($db::FETCH_ASSOC);
+
+            $tops = $db->query(
+                "SELECT `identifier`, COUNT(*) AS `count` FROM `phplight_analytics` WHERE `event`='" . $event['event'] . "'
+                        GROUP BY `identifier` ORDER BY `count` DESC LIMIT 25"
+            )->fetchAll($db::FETCH_ASSOC);
+
+            $topsWithData = $db->query(
+                "SELECT `identifier`, `currentUrl`, `misc`, `user`, COUNT(*) AS `count` FROM `phplight_analytics` WHERE `event`='" . $event['event'] . "'
+                        GROUP BY `identifier`, `currentUrl`, `misc`, `user` ORDER BY `count` DESC LIMIT 25"
+            )->fetchAll($db::FETCH_ASSOC);
+
+            foreach ($topsWithData as $index => $datum) {
+                $topsWithData[$index]["misc"] = unserialize($datum["misc"]);
+                $topsWithData[$index]["user"] = unserialize($datum["user"]);
+            }
+
+            $events[] = [
+                "name" => $event["event"],
+                "count" => $count["COUNT(`event`)"],
+                "tops" => $tops,
+                "topsWithData" => $topsWithData
+            ];
+        }
+
+        $stats["events"] = $events;
+
+        return $stats;
+    }
 }

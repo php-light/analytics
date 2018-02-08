@@ -34,4 +34,18 @@ class DataController extends Controller
             "data" => (new DataRepository())->new($data)->toArray()
         ]);
     }
+
+    public function statsAction(Request $request)
+    {
+        if (!$request->isUserRoleAdmin()) {
+            return new JsonResponse([
+                "message" => "You cannot access this section"
+            ]);
+        }
+
+        return new JsonResponse([
+            "success" => true,
+            "stats" => (new DataRepository())->stats()
+        ]);
+    }
 }

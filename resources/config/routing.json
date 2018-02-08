@@ -4,6 +4,11 @@
       "path": "/",
       "controller": "PhpLight\\AnalyticsBundle\\Controller\\Data",
       "action": "new"
+    },
+    "php_light_analytics_stats": {
+      "path": "/",
+      "controller": "PhpLight\\AnalyticsBundle\\Controller\\Data",
+      "action": "stats"
     }
   }
 }
