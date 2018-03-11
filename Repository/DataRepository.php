@@ -15,7 +15,7 @@ use PhpLight\Framework\Components\DB\DB;
 
 class DataRepository
 {
-    public function new(Data $data)
+    public function create(Data $data)
     {
         $db = (new DB())->connect();
 

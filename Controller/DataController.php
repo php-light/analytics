@@ -31,7 +31,7 @@ class DataController extends Controller
         $data = new Data($data);
 
         return new JsonResponse([
-            "data" => (new DataRepository())->new($data)->toArray()
+            "data" => (new DataRepository())->create($data)->toArray()
         ]);
     }
 
